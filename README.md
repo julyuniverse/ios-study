@@ -4,10 +4,10 @@
 
 ## apple login
 
-작성일: 2024-08-09
-xcode15
-swift5
-리소스 경로: ./SocialLogin
+- 작성일: 2024-08-09
+- xcode15
+- swift5
+- 리소스 경로: ./SocialLogin
 
 ### Server reference
 
