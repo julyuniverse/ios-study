@@ -22,6 +22,11 @@ struct HomeView: View {
                 Text("titile: \(post.title)")
                 Text("content: \(post.content)")
             }
+            Button("logout") {
+                Task {
+                    await socialLoginViewModel.logout()
+                }
+            }
         }
         .alert(isPresented: $socialLoginViewModel.hasError, error: socialLoginViewModel.error) {}
     }

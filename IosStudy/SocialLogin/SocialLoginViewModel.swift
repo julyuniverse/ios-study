@@ -126,6 +126,34 @@ class SocialLoginViewModel: ObservableObject {
     }
     
     @MainActor
+    func logout() async {
+        do {
+            // request
+            let (data, _) = try await NetworkManager.shared.request(to: .LOGOUT)
+            
+            // Optional binding으로 data 안전하게 처리
+            guard let data = data else {
+                // data가 nil이면 로그인 만료로 간주하고 더 이상의 로직을 수행하지 않음
+                return
+            }
+            let decodedData = try JSONDecoder().decode(ResponseStatus.self, from: data)
+            print("data: \(decodedData)")
+            
+            // set local storage
+            defaults.set("", forKey: "accessToken")
+            defaults.set("", forKey: "refreshToken")
+            defaults.set("loggedOut", forKey: "appState")
+        } catch {
+            self.hasError = true
+            if let uuidLoginError = error as? UuidLoginError {
+                self.error = uuidLoginError
+            } else {
+                self.error = .ERROR(error: error)
+            }
+        }
+    }
+    
+    @MainActor
     func getPosts() async {
         do {
             // request

@@ -33,6 +33,7 @@ enum Endpoint {
     case UUID_LOGIN(uuidLoginRequest: UuidLoginRequest)
     case REISSUE_TOKEN
     case SOCIAL_LOGIN(socialLoginRequest: SocialLoginRequest)
+    case LOGOUT
     case GET_POST
     case CREATE_POST(parameters: [String:Any], media: [Media]?)
     
@@ -48,6 +49,8 @@ enum Endpoint {
             return "/api/auth/token/reissue"
         case .SOCIAL_LOGIN:
             return "/api/auth/login/social"
+        case .LOGOUT:
+            return "/api/auth/logout"
         case .GET_POST:
             return "/api/posts"
         case .CREATE_POST:
@@ -60,6 +63,7 @@ enum Endpoint {
         case .UUID_LOGIN,
                 .REISSUE_TOKEN,
                 .SOCIAL_LOGIN,
+                .LOGOUT,
                 .CREATE_POST:
             return .POST
         case .GET_POST:
@@ -72,6 +76,7 @@ enum Endpoint {
         case .UUID_LOGIN,
                 .REISSUE_TOKEN,
                 .SOCIAL_LOGIN,
+                .LOGOUT,
                 .GET_POST:
             return .JSON
         case .CREATE_POST:
@@ -91,7 +96,8 @@ enum Endpoint {
             return try? JSONEncoder().encode(body)
         case .SOCIAL_LOGIN(let body):
             return try? JSONEncoder().encode(body)
-        case .GET_POST:
+        case .LOGOUT,
+                .GET_POST:
             return nil
         case .CREATE_POST(let parameters, let media):
             return createMultipartFormData(parameters: parameters, media: media, boundary: Endpoint.boundary)
