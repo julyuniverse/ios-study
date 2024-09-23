@@ -14,6 +14,9 @@ struct ContentView: View {
             NavigationLink(destination: SocialLoginContentView()) {
                 Text("Social Login")
             }
+            NavigationLink(destination: ScrollContentView()) {
+                Text("Scroll View")
+            }
         }
     }
 }

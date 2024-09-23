@@ -137,6 +137,7 @@ struct Media {
     let mimeType: String
 }
 
+@MainActor
 class NetworkManager {
     static let shared = NetworkManager()
     private var isTokenReissuing = false // 토큰 재발행 하는 동안 들어온 요청 처리 방지 플래그
@@ -175,7 +176,9 @@ class NetworkManager {
                         }
                     }
                     return try await withCheckedThrowingContinuation { continuation in
-                        self.waitingRequests.append((endpoint, continuation.resume))
+                        self.waitingRequests.append((endpoint, { result in
+                            continuation.resume(with: result)
+                        }))
                     }
                 } else {
                     if (errorResponse.code == ErrorCode.EXPIRED_TOKEN.rawValue || errorResponse.code == ErrorCode.INVALID_TOKEN_SIGNATURE.rawValue || errorResponse.code == ErrorCode.TOKEN_DECODING_FAILED.rawValue || errorResponse.code == ErrorCode.TOKEN_VERIFICATION_FAILED.rawValue || errorResponse.code == ErrorCode.TOKEN_NO_AUTHORITY.rawValue || errorResponse.code == ErrorCode.NOT_AN_ACCESS_TOKEN.rawValue || errorResponse.code == ErrorCode.NOT_A_REFRESH_TOKEN.rawValue || errorResponse.code == ErrorCode.NO_TOKEN_TYPE.rawValue || errorResponse.code == ErrorCode.NO_DEVICE_ID.rawValue || errorResponse.code == ErrorCode.ACCOUNT_LOGGED_OUT.rawValue || errorResponse.code == ErrorCode.NO_TOKEN_PROVIDED.rawValue || errorResponse.code == ErrorCode.TOKEN_MISMATCH.rawValue) {

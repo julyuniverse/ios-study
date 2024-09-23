@@ -8,6 +8,7 @@
 import Foundation
 
 /// 설정된 구간에 따라 알림 창 출력을 할 수 있는 클래스입니다.
+@MainActor
 class AlertManager: ObservableObject {
     static let shared = AlertManager()
     @Published var showAlert: Bool = false

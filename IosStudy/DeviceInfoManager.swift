@@ -9,6 +9,7 @@ import Foundation
 import Security
 import UIKit
 
+@MainActor
 final class DeviceInfoManager {
     static let shared = DeviceInfoManager()
     private let keychainServiceName = "com.benection.IosStudy"
