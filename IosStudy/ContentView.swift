@@ -15,7 +15,10 @@ struct ContentView: View {
                 Text("Social Login")
             }
             NavigationLink(destination: ScrollContentView()) {
-                Text("Scroll View")
+                Text("Scroll")
+            }
+            NavigationLink(destination: SwiftDataContentView()) {
+                Text("SwiftData")
             }
         }
     }
