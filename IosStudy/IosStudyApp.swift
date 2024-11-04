@@ -12,9 +12,8 @@ import SwiftData
 struct IosStudyApp: App {
     var modelContainer: ModelContainer = {
         let schema = Schema([Learner.self])
-        
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
+        
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
